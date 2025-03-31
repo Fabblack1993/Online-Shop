@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import Stripe from "stripe";
 
+
+
 dotenv.config(); // Charger les variables d'environnement
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY); // Initialisation de Stripe
