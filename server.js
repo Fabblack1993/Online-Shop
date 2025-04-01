@@ -8,6 +8,14 @@ dotenv.config(); // Charger les variables d'environnement
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY); // Initialisation de Stripe
 const app = express();
+const getSalesData = async () => {
+    // Simule des données de vente (à remplacer par une base de données réelle)
+    return [
+        { id: 1, product: "Parfum", quantity: 10, revenue: 150 },
+        { id: 2, product: "Accessoires", quantity: 5, revenue: 75 },
+        { id: 3, product: "Cosmétiques", quantity: 20, revenue: 300 }
+    ];
+};
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -24,6 +32,16 @@ app.get('/success', (req, res) => {
 app.get('/cancel', (req, res) => {
     res.sendFile('cancel.html', { root: 'public'});
 });
+app.get('/dashboard', async (req, res) => {
+    try {
+        const salesData = await getSalesData(); // Une fonction qui récupère les données de vente
+        res.json(salesData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving dashboard data");
+    }
+});
+
 
 // Stripe : Création d'une session de paiement
 

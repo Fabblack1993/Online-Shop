@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+</head>
+<body>
+    <h1>Tableau de Bord des Ventes</h1>
+    <table id="sales-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Revenu</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/dashboard'); // Appelle la route backend
+                const salesData = await response.json();
+                
+                const tbody = document.querySelector('#sales-table tbody');
+                salesData.forEach(sale => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${sale.id}</td>
+                        <td>${sale.product}</td>
+                        <td>${sale.quantity}</td>
+                        <td>$${sale.revenue}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error loading dashboard data:", error);
+            }
+        }
+
+        loadDashboard(); // Charge les données au chargement de la page
+    </script>
+</body>
+</html>
