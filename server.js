@@ -36,12 +36,8 @@ app.get('/cancel', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    // Exemple de validation : Remplace ces valeurs avec des identifiants stockés dans une base de données
-    const validUsername = "admin";
-    const validPassword = "password123";
-
-    if (username === validUsername && password === validPassword) {
-        res.redirect('/dashboard.html'); // Redirige vers le tableau de bord en cas de succès
+    if (username === 'admin' && password === 'password123') {
+        res.redirect('/dashboard.html'); // Redirige vers le tableau de bord
     } else {
         res.status(401).send("Nom d'utilisateur ou mot de passe incorrect");
     }
