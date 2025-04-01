@@ -32,16 +32,11 @@ app.get('/success', (req, res) => {
 app.get('/cancel', (req, res) => {
     res.sendFile('cancel.html', { root: 'public'});
 });
-app.get('/dashboard', async (req, res) => {
-    try {
-        const salesData = await getSalesData(); // Une fonction qui récupère les données de vente
-        res.json(salesData);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error retrieving dashboard data");
-    }
-});
 
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile('dashboard.html', { root: 'public' });
+});
 
 // Stripe : Création d'une session de paiement
 
