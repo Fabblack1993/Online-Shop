@@ -36,7 +36,7 @@ app.get('/cancel', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    if (username === 'admin' && password === 'password123') {
+    if (username === 'Fabienne_Admin2025' && password === 'Xq&9@2bRp#4!') {
         res.redirect('/dashboard.html'); // Redirige vers le tableau de bord
     } else {
         res.status(401).send("Nom d'utilisateur ou mot de passe incorrect");
