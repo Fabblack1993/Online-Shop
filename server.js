@@ -8,14 +8,7 @@ dotenv.config(); // Charger les variables d'environnement
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY); // Initialisation de Stripe
 const app = express();
-const getSalesData = async () => {
-    // Simule des données de vente (à remplacer par une base de données réelle)
-    return [
-        { id: 1, product: "Parfum", quantity: 10, revenue: 150 },
-        { id: 2, product: "Accessoires", quantity: 5, revenue: 75 },
-        { id: 3, product: "Cosmétiques", quantity: 20, revenue: 300 }
-    ];
-};
+
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -36,12 +29,17 @@ app.get('/cancel', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
+    console.log("Requête reçue : ", username, password);
+
     if (username === 'Fabienne_Admin2025' && password === 'Xq&9@2bRp#4!') {
-        res.redirect('/dashboard.html' , { root: 'public'}); // Redirige vers le tableau de bord
+        console.log("Connexion réussie !");
+        res.redirect('/dashboard.html');
     } else {
+        console.error("Échec de connexion. Identifiants incorrects.");
         res.status(401).send("Nom d'utilisateur ou mot de passe incorrect");
     }
 });
+
 
 //app.get('/dashboard', (req, res) => {
     //res.sendFile('dashboard.html', { root: 'public' });//
