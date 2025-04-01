@@ -37,7 +37,7 @@ app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     if (username === 'Fabienne_Admin2025' && password === 'Xq&9@2bRp#4!') {
-        res.redirect('/dashboard.html'); // Redirige vers le tableau de bord
+        res.redirect('/dashboard.html' , { root: 'public'}); // Redirige vers le tableau de bord
     } else {
         res.status(401).send("Nom d'utilisateur ou mot de passe incorrect");
     }
@@ -49,7 +49,7 @@ app.post('/login', (req, res) => {
 
 // Stripe : Création d'une session de paiement
 
-app.get('/dashboard', (req, res) => {
+app.get('/api/dashboard', (req, res) => {
     const salesData = [
         { id: 1, product: "Parfum", quantity: 10, revenue: 150 },
         { id: 2, product: "Accessoires", quantity: 5, revenue: 75 },
