@@ -274,6 +274,8 @@ header{
     font-size: 1rem;
     font-weight: 500;
 }
+
+
 @media(max-width:1080px){
     .nav{
         padding: 14px 0;
