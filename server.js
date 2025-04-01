@@ -2,61 +2,59 @@ import express from "express";
 import dotenv from "dotenv";
 import Stripe from "stripe";
 
-
-
-dotenv.config(); // Charger les variables d'environnement
+// Chargement des variables d'environnement
+dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY); // Initialisation de Stripe
 const app = express();
 
+// Configuration du middleware
+app.use(express.static('public')); // Sert les fichiers statiques
+app.use(express.json()); // Parse les données JSON envoyées dans les requêtes
+app.use(express.urlencoded({ extended: true })); // Parse les données des formulaires HTML
 
-app.use(express.static('public'));
-app.use(express.json());
-
-// Route page d'accueil
+// Route principale
 app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: 'public'});
+    res.sendFile('index.html', { root: 'public' }); // Sert la page d'accueil
 });
 
+// Route de succès
 app.get('/success', (req, res) => {
-    res.sendFile('success.html', { root: 'public'});
+    res.sendFile('success.html', { root: 'public' }); // Sert la page de succès
 });
 
+// Route d'annulation
 app.get('/cancel', (req, res) => {
-    res.sendFile('cancel.html', { root: 'public'});
+    res.sendFile('cancel.html', { root: 'public' }); // Sert la page d'annulation
 });
 
+// Route de connexion
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    console.log("Requête reçue : ", username, password);
+    console.log("Requête reçue : ", req.body);
 
+    // Vérification des identifiants
     if (username === 'Fabienne_Admin2025' && password === 'Xq&9@2bRp#4!') {
         console.log("Connexion réussie !");
-        res.redirect('/dashboard.html');
+        res.redirect('/dashboard.html'); // Redirige vers le tableau de bord
     } else {
-        console.error("Échec de connexion. Identifiants incorrects.");
+        console.error("Échec de connexion : Identifiants incorrects !");
         res.status(401).send("Nom d'utilisateur ou mot de passe incorrect");
     }
 });
 
-
-//app.get('/dashboard', (req, res) => {
-    //res.sendFile('dashboard.html', { root: 'public' });//
-//}//);///
-
-// Stripe : Création d'une session de paiement
-
+// Route pour fournir les données analytiques
 app.get('/api/dashboard', (req, res) => {
     const salesData = [
         { id: 1, product: "Parfum", quantity: 10, revenue: 150 },
         { id: 2, product: "Accessoires", quantity: 5, revenue: 75 },
-        { id: 3, product: "Cosmétiques", quantity: 20, revenue: 300 }
+        { id: 3, product: "Cosmétiques", quantity: 20, revenue: 300 },
     ];
-    res.json(salesData);
+    res.json(salesData); // Renvoie les données en JSON
 });
 
-
+// Route pour gérer le checkout Stripe
 app.post('/stripe-checkout', async (req, res) => {
     try {
         const items = req.body.items;
@@ -98,7 +96,7 @@ app.post('/stripe-checkout', async (req, res) => {
     }
 });
 
-// Lancement du serveur
+// Démarrage du serveur
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
