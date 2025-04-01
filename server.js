@@ -33,13 +33,30 @@ app.get('/cancel', (req, res) => {
     res.sendFile('cancel.html', { root: 'public'});
 });
 
-
-app.get('/dashboard', (req, res) => {
-    res.sendFile('dashboard.html', { root: 'public' });
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    // Exemple basique de validation (remplace avec une base de données sécurisée)
+    if (username === 'admin' && password === 'C@brelle2017') {
+        res.redirect('/dashboard.html'); // Redirige vers le tableau de bord
+    } else {
+        res.status(401).send("Nom d'utilisateur ou mot de passe incorrect");
+    }
 });
+
+//app.get('/dashboard', (req, res) => {
+    //res.sendFile('dashboard.html', { root: 'public' });//
+//}//);///
 
 // Stripe : Création d'une session de paiement
 
+app.get('/dashboard', (req, res) => {
+    const salesData = [
+        { id: 1, product: "Parfum", quantity: 10, revenue: 150 },
+        { id: 2, product: "Accessoires", quantity: 5, revenue: 75 },
+        { id: 3, product: "Cosmétiques", quantity: 20, revenue: 300 }
+    ];
+    res.json(salesData);
+});
 
 
 app.post('/stripe-checkout', async (req, res) => {
